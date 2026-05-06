@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSEB Result Processor</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Chart.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+    <!-- SheetJS CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo-area">
+                <h1>GSEB Processor</h1>
+                <p>SSC & HSC Automation</p>
+            </div>
+            <div class="header-controls">
+                <div class="btn-group">
+                    <button id="btnSSC" class="active" onclick="selectClass('SSC')">10th (SSC)</button>
+                    <button id="btnHSC" onclick="selectClass('HSC')">12th (HSC)</button>
+                </div>
+                <div id="hscOptions" class="hidden">
+                    <label><input type="checkbox" id="chkCommerceOnly"> Commerce Only (C)</label>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="card input-section">
+            <div class="input-grid">
+                <div class="upload-box">
+                    <label for="fileUpload">Excel File (.xlsx)</label>
+                    <input type="file" id="fileUpload" accept=".xlsx, .xls">
+                </div>
+                <div class="manual-box">
+                    <label for="manualInput">Manual Seat Nos</label>
+                    <textarea id="manualInput" placeholder="B123456, C789012..."></textarea>
+                </div>
+            </div>
+            <button id="btnProcess" class="btn-primary" onclick="startProcessing()">Process Results</button>
+        </section>
+
+        <section id="statusSection" class="card hidden">
+            <h2 id="statusTitle">Processing...</h2>
+            <div class="progress-container">
+                <div id="progressBar" class="progress-bar"></div>
+            </div>
+            <p id="statusText">Preparing...</p>
+        </section>
+
+        <section id="resultsSection" class="hidden">
+            <div class="dashboard-grid">
+                <div class="card stats-card">
+                    <h3>Summary Stats</h3>
+                    <div id="summaryStats">
+                        <p>Total Processed: <span id="statTotal">0</span></p>
+                        <p>Passed: <span id="statPass" class="text-success">0</span></p>
+                        <p>Failed: <span id="statFail" class="text-danger">0</span></p>
+                        <p>Grace Passing: <span id="statGrace" class="text-warning">0</span></p>
+                        <p>Passing Ratio: <span id="statRatio">0%</span></p>
+                    </div>
+                </div>
+                <div class="card chart-card">
+                    <h3>Pass/Fail/Grace Ratio</h3>
+                    <canvas id="ratioChart"></canvas>
+                </div>
+                <div class="card chart-card">
+                    <h3>Grade Distribution</h3>
+                    <canvas id="gradeChart"></canvas>
+                </div>
+            </div>
+
+            <div class="card table-card">
+                <div class="table-header">
+                    <h2>Detailed Results</h2>
+                    <button class="btn-secondary" onclick="exportToExcel()">Export to Excel</button>
+                </div>
+                <div class="table-container">
+                    <table id="resultsTable">
+                        <thead>
+                            <tr id="tableHead">
+                                <!-- Headers populated by JS -->
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            <!-- Data populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 GSEB Result Processor Utility</p>
+            <p class="warning">Note: This tool requires a CORS-bypass extension or local configuration to fetch data from gseb.org.</p>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
